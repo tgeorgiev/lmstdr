@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+  <title>Let me see that Donkey Roll!</title>
+  <style type="text/css">
+    html, body, .donkey-roll, .donkey-roll .player-holder {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    body {
+      font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
+    }
+
+    .donkey-roll .player-holder {
+      pointer-events: none;
+      transition: all 0.5s ease-out;
+      -webkit-clip-path: circle(0% at center);
+      clip-path: circle(0% at center);
+    }
+
+    .donkey-roll.active .player-holder {
+      -webkit-clip-path: circle(100% at center);
+      clip-path: circle(100% at center);
+    }
+
+    .donkey-roll.active .btn {
+      opacity: 0.5;
+    }
+
+    .donkey-roll.no-touch.active .btn:hover {
+      opacity: 1;
+    }
+
+    /* Nice 3d buttons thanks to https://css-tricks.com/circular-3d-buttons/
+    */
+    .btn {
+      display: block;
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+
+      background-color: #f7f7f7;
+      background-image: -webkit-gradient(linear, left top, left bottom, from(#f7f7f7), to(#e7e7e7));
+      background-image: -webkit-linear-gradient(top, #f7f7f7, #e7e7e7);
+      background-image: -moz-linear-gradient(top, #f7f7f7, #e7e7e7);
+      background-image: -ms-linear-gradient(top, #f7f7f7, #e7e7e7);
+      background-image: -o-linear-gradient(top, #f7f7f7, #e7e7e7);
+      color: #a7a7a7;
+      margin-left: -70px;
+      margin-top: -70px;
+      width: 140px;
+      height: 140px;
+      text-align: center;
+      border-radius: 50%;
+      box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff;
+
+      user-select: none;
+    }
+
+    .btn .secondary {
+      margin-top: 50px;
+    }
+
+    .btn .primary {
+      font-size: 23px
+    }
+
+    .btn:hover {
+      text-decoration: none;
+      color: #555;
+      background: #f5f5f5;
+    }
+
+    .btn:active {
+      box-shadow: none;
+    }
+
+    .btn:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: -18px;
+      left: -18px;
+      bottom: -18px;
+      right: -18px;
+      border-radius: 50%;
+      box-shadow: inset 0px 8px 60px #ddd;
+    }
+
+    .description {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      margin-top: 80px;
+      text-align: center;
+    }
+  </style>
+
+</head>
+<body>
+  <div class="description">
+    <p>
+    The <b>Let me see that Donkey Roll</b> button is inspired by the latest dance craze that’s sweeping the nation. Full credit goes to:
+    </p>
+    <p>
+    <b>Artist:</b> <a href="http://www.thelonelyisland.com/">The Lonely Island</a>
+    </p>
+    <p>
+    <b>Album:</b> <a href="http://www.thelonelyisland.com/discography/popstar-never-stop-never-stopping/">Popstar: Never Stop Never Stopping</a>
+    </p>
+    <p>
+    <b>YouTube video:</b> <a href="https://www.youtube.com/watch?v=-mRVK8-XfEU">The Style Boyz (The Lonely Island) - 'The Donkey Roll’ (Official Music Video) | Popstar (2016)</a> by <a href="https://www.youtube.com/channel/UCxAICW_LdkfFYwTqTHHE0vg">MTV USA</a>
+    </p>
+  </div>
+  <div class="donkey-roll">
+    <div class="player-holder">
+      <div id="player"></div>
+    </div>
+      <a class="btn" onclick="letMeSeeThatDonkeyRoll()">
+      <div class="secondary">Let them see that</div>
+      <div class="primary">Donkey Roll!</div>
+    </a>
+  </div>
+  <script type="text/javascript">
+    console.log('Hey there, don\'t want to interrupt you, just wanted to let you know that you can clone or fork the project here https://github.com/tgeorgiev/lmstdr')
+
+    function isTouchDevice() {
+      return 'ontouchstart' in window || navigator.maxTouchPoints;
+    }
+
+    var tag = document.createElement('script');
+    tag.src = 'http://www.youtube.com/player_api';
+    var firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+    var player;
+
+    function onYouTubePlayerAPIReady() {
+      player = new YT.Player('player', {
+        height: '100%',
+        width: '100%',
+        videoId: '-mRVK8-XfEU',
+        playerVars: {
+          'controls': 0,
+          'disablekb': 1,
+          'playsinline': 1,
+          'rel': 0
+        },
+        events: {
+          'onReady': onPlayerReady,
+          'onStateChange': onPlayerStateChange
+        }
+      });
+    }
+
+    if (!isTouchDevice()) {
+      document.querySelector('.donkey-roll').classList.add('no-touch');
+    }
+
+    document.querySelector('.donkey-roll .btn').style = 'display: none';
+    function onPlayerReady() {
+      player.seekTo(17);
+      player.setVolume(0);
+      player.playVideo();
+
+      document.querySelector('.donkey-roll .btn').style = '';
+    }
+
+    function onPlayerStateChange(event) {
+      if (event.data == YT.PlayerState.ENDED) {
+        document.querySelector('.donkey-roll').classList.remove('active');
+      }
+    }
+
+    function letMeSeeThatDonkeyRoll() {
+      document.querySelector('.donkey-roll').classList.add('active');
+
+      player.seekTo(17.75);
+      player.setVolume(100);
+      player.playVideo();
+    }
+
+  </script>
+</body>
+</html>
