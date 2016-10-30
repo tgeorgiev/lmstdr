@@ -58,6 +58,11 @@
       border-radius: 50%;
       box-shadow: 0px 3px 8px #aaa, inset 0px 2px 3px #fff;
 
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
       user-select: none;
     }
 
@@ -110,22 +115,22 @@
   <div class="donkey-roll">
     <div class="description">
       <p>
-      The <b>Let me see that Donkey Roll</b> button is inspired by the latest dance craze that’s sweeping the nation. Full credit goes to:
+        The <b>Let me see that Donkey Roll</b> button is inspired by the latest dance craze that’s sweeping the nation. Full credit goes to:
       </p>
       <p>
-      <b>Artist:</b> <a href="http://www.thelonelyisland.com/">The Lonely Island</a>
+        <b>Artist:</b> <a href="http://www.thelonelyisland.com/">The Lonely Island</a>
       </p>
       <p>
-      <b>Album:</b> <a href="http://www.thelonelyisland.com/discography/popstar-never-stop-never-stopping/">Popstar: Never Stop Never Stopping</a>
+        <b>Album:</b> <a href="http://www.thelonelyisland.com/discography/popstar-never-stop-never-stopping/">Popstar: Never Stop Never Stopping</a>
       </p>
       <p>
-      <b>YouTube video:</b> <a href="https://www.youtube.com/watch?v=-mRVK8-XfEU">The Style Boyz (The Lonely Island) - 'The Donkey Roll’ (Official Music Video) | Popstar (2016)</a> published by <a href="https://www.youtube.com/channel/UCxAICW_LdkfFYwTqTHHE0vg">MTV USA</a>
+        <b>YouTube video:</b> <a href="https://www.youtube.com/watch?v=-mRVK8-XfEU">The Style Boyz (The Lonely Island) - 'The Donkey Roll’ (Official Music Video) | Popstar (2016)</a> published by <a href="https://www.youtube.com/channel/UCxAICW_LdkfFYwTqTHHE0vg">MTV USA</a>
       </p>
     </div>
     <div class="player-holder">
       <div id="player"></div>
     </div>
-      <a class="btn" onclick="letMeSeeThatDonkeyRoll()">
+    <a class="btn">
       <div class="secondary">Let them see that</div>
       <div class="primary">Donkey Roll!</div>
     </a>
@@ -133,9 +138,7 @@
   <script type="text/javascript">
     console.log('Hey there, don\'t want to interrupt you, just wanted to let you know that you can clone or fork the project here https://github.com/tgeorgiev/lmstdr')
 
-    function isTouchDevice() {
-      return 'ontouchstart' in window || navigator.maxTouchPoints;
-    }
+    var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints;
 
     var tag = document.createElement('script');
     tag.src = 'https://www.youtube.com/player_api';
@@ -152,7 +155,8 @@
           'controls': 0,
           'disablekb': 1,
           'playsinline': 1,
-          'rel': 0
+          'rel': 0,
+          'iv_load_policy': 3
         },
         events: {
           'onReady': onPlayerReady,
@@ -161,11 +165,16 @@
       });
     }
 
-    if (!isTouchDevice()) {
+    var btn = document.querySelector('.donkey-roll .btn');
+    if (!isTouchDevice) {
       document.querySelector('.donkey-roll').classList.add('no-touch');
+      btn.addEventListener('mousedown', letMeSeeThatDonkeyRoll);
+    } else {
+      btn.addEventListener('touchstart', letMeSeeThatDonkeyRoll);
     }
 
     document.querySelector('.donkey-roll .btn').style = 'display: none';
+
     function onPlayerReady() {
       player.seekTo(17);
       player.setVolume(0);
