@@ -1,6 +1,10 @@
 # Let me see that Donkey Roll
 
-This project aims to bring an instant "Donkey Roll" button, because the world needs it.
+This project aims to bring an instant "Donkey Roll" button, because the World needs it. At a birthday party, a wedding, or just on a walk in the park, you can
+1. Flap your arms like a bird flying around
+2. Point your fingers at the cold dead ground
+3. Make like a dude on an Egyptian scroll
+4. Don't be a Melvin, just let us see that Donkey Roll!
 
 [Open the webpage](http://tgeorgiev.github.io/lmstdr/)
 
